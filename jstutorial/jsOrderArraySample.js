@@ -29535,6 +29535,37 @@ const orders = [
 
 
   
-        
+    // https://northwind.vercel.app/api/orders
 
-        console.log(orders[0].details[0].unitPrice);
+// * Brezilya dan kaç adert sipariş aldım
+// * Brezilyadan aldığım siparişlerin toplam tutarı
+// * Birezilyadan aldığım en yüksek sipariş
+
+//Brazil
+
+var brazilOrders = orders.filter(q => q.shipAddress?.country == 'Brazil');
+
+// console.log('Brazil orders count', brazilOrders.length);
+
+
+var totalPrice = 0;
+brazilOrders.forEach(function (item){
+
+    var orderPrice = 0;
+    item.details.forEach((detail) => {
+        orderPrice = orderPrice +  detail.unitPrice * detail.quantity
+    })
+
+    item.totalPrice = orderPrice
+    totalPrice = totalPrice + orderPrice
+
+})
+
+
+brazilOrders.sort(function(a, b) { 
+    return a.totalPrice- b.totalPrice;
+    })
+
+console.log('Total Price', brazilOrders);
+
+
