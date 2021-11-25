@@ -29545,7 +29545,7 @@ const orders = [
 
 var brazilOrders = orders.filter(q => q.shipAddress?.country == 'Brazil');
 
-console.log('Brazil orders count', brazilOrders.length);
+// console.log('Brazil orders count', brazilOrders.length);
 
 
 var totalPrice = 0;
@@ -29556,10 +29556,16 @@ brazilOrders.forEach(function (item){
         orderPrice = orderPrice +  detail.unitPrice * detail.quantity
     })
 
+    item.totalPrice = orderPrice
     totalPrice = totalPrice + orderPrice
 
 })
 
-console.log('Total Price', totalPrice);
+
+brazilOrders.sort(function(a, b) { 
+    return a.totalPrice- b.totalPrice;
+    })
+
+console.log('Total Price', brazilOrders);
 
 

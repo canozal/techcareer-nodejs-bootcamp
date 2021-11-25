@@ -997,7 +997,11 @@ var filteredProducts2 = products.filter(q => q.unitPrice > 30 && q.categoryId ==
 // console.log(findProduct);
 
 
+products.sort(function(a, b) { 
+    return a.unitPrice- b.unitPrice;
+    })
 
+    console.log('sorted', products);
 
 products.forEach(function (item) {
     // if (item.category != undefined) {
@@ -1006,7 +1010,7 @@ products.forEach(function (item) {
 
     // item.category != undefined ? console.log(item.category.name) : ''
 
-    console.log(item.category?.name);
+    //console.log(item.category?.name);
 })
 
 //bu dizide kaç tane eleman var? yani kaç ürün var??
@@ -1017,7 +1021,7 @@ var productCount = products.length;
 //     productsCount++;
 // })
 
-console.log('Count', productCount);
+// console.log('Count', productCount);
 
 var maxPrice = 0;
 var maxProduct = {}
@@ -1033,5 +1037,5 @@ products.forEach(function (item) {
 
 //discontinued false olan kaç ürün var???
 var filteredProductsbyDiscontinued = products.filter(x => x.discontinued == false)
-console.log("filteredCount", filteredProductsbyDiscontinued.length);
+//console.log("filteredCount", filteredProductsbyDiscontinued.length);
 
