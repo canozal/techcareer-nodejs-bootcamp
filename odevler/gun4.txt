@@ -1,0 +1,4 @@
+Bir nodejs projesi olustur ve express yükle
+4 tane farklı endpoint aç ve kimi dataları servis et. Aynı category endpointinde olduğu gibi
+
+** bir tane daha endpoint aç ve o html göndersin (http modülünde yaptığımız gibi)

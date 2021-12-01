@@ -21,17 +21,20 @@ const server = http.createServer(function (req, res) {
     }
     else if (req.url == '/about') {
 
-        fs.readFile('./about2.html', function(err,data){
+        fs.readFile('./about.html', function(err,data){
+
+            console.log('1');
 
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data)
 
         })
+
     }
     else {
         fs.readFile('./404.html', function(err,data){
 
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(404, {'Content-Type': 'text/html'});
             res.end(data)
 
         })
