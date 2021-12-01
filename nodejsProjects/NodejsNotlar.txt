@@ -1,1 +1,0 @@
-// Çekirdek modüller ( paketleri bilgisayarına yüklüyorum )
