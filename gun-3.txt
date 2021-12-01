@@ -1,5 +1,0 @@
-
-
-* https://www.w3schools.com/js/js_json_intro.asp
-* extension kur
-https://chrome.google.com/webstore/detail/json-viewer-pro/eifflpmocdbdmepbjaopkkhbfmdgijcc
