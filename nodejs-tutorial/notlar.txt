@@ -1,0 +1,5 @@
+Paket Yükleme Seçenekleri
+
+Projeye Yükleme
+Global e Yükleme
+Projede development ortamına yükleme
