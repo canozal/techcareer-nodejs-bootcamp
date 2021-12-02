@@ -3,3 +3,8 @@ Paket Yükleme Seçenekleri
 Projeye Yükleme
 Global e Yükleme
 Projede development ortamına yükleme
+
+
+Yazılım Güvenliği
+https://www.youtube.com/watch?v=deEiUpnsmyA
+
