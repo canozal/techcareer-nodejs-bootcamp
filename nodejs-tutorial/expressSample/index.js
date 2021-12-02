@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express();
-
-var _ = require('lodash');
 var bodyParser = require('body-parser')
 const { body, validationResult } = require('express-validator');
+
+var _ = require('lodash');
+
+var colors = require('colors');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -13,7 +15,7 @@ app.use(bodyParser.json())
 
 const port = 8080
 
-const productsData = [
+let productsData = [
     {
         "id": 4,
         "supplierId": 2,
@@ -979,6 +981,18 @@ const productsData = [
 ]
 
 
+
+app.use(function (req, res, next) {
+
+    if(req.originalUrl.includes('/api/products')){
+        res.send('Yetkisiz erşişim')
+    }
+    else{
+        next()
+    }
+
+})
+
 //Bu endpoint tüm ürünleri getirir FAKAT dilersek yolladığımız query stringlerle farklı dönüş sağlatabiliriz.
 app.get('/api/products', function (req, res) {
 
@@ -1033,7 +1047,6 @@ app.get('/api/products/category/:id', function (req, res) {
 
 })
 
-
 //Yeni bir ürün ekleme. Burada serverSide validation işlemi yaptım!!
 app.post('/api/products',
 
@@ -1068,6 +1081,23 @@ app.post('/api/products',
         res.status(201).json(newProduct)
 
     })
+
+//Bir ürün silme (id ye göre)
+app.delete('/api/products/:id', function (req, res) {
+
+    var productId = req.params.id;
+
+    // console.log(("Before length: " + productsData.length + "").red);
+    console.log(`Before length: ${productsData.length}`.red);
+
+
+    productsData = productsData.filter(q => q.id != productId);
+
+    console.log(("After length: " + productsData.length + "").blue);
+
+    res.json({})
+
+})
 
 app.listen(port, function () {
     console.log('Sunucumuz aslanlar gibi ayakta!');
