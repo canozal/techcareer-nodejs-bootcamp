@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const { body, validationResult } = require("express-validator");
 const bodyParser = require("body-parser");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 let suppliers = require("./suppliers");
 
@@ -105,6 +107,30 @@ app.put("/api/suppliers/:id", function (req, res) {
   );
   supplier.address.phone = setDefaultVal(data.phone, supplier.address.phone);
   res.json(suppliers);
+});
+
+app.get("/api/orders", async function (req, res) {
+  const response = await fetch("https://northwind.vercel.app/api/orders");
+  let data = await response.json();
+
+  let month = req.query.month;
+  let year = req.query.year;
+
+  if (month) {
+    data = data.filter((order) => {
+      let date = new Date(order.orderDate);
+      return date.getMonth() + 1 == month;
+    });
+  }
+
+  if (year) {
+    data = data.filter((order) => {
+      let date = new Date(order.orderDate);
+      return date.getFullYear() == year;
+    });
+  }
+
+  res.json(data);
 });
 
 app.listen(3000, () => {
