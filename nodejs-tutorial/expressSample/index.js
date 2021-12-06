@@ -4,7 +4,6 @@ var bodyParser = require('body-parser')
 const { body, validationResult } = require('express-validator');
 
 var _ = require('lodash');
-
 var colors = require('colors');
 
 // parse application/x-www-form-urlencoded
