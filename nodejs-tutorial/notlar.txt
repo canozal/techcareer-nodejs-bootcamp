@@ -19,3 +19,6 @@ MongoDB University
 https://university.mongodb.com/
 
 
+https://www.mongodb.com/compare/relational-vs-non-relational-databases
+https://docs.mongodb.com/manual/applications/data-models-relationships/
+

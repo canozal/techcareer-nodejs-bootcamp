@@ -4,31 +4,44 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 
 mongoose.connect("mongodb+srv://user_techcareer:KB0jZ7gSjEFsXwDY@cluster0.9orl8.mongodb.net/techcareermusicdb?authSource=admin&replicaSet=atlas-13lahc-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
-.catch(err =>{
+    .catch(err => {
 
-    //Bağlantı sırasında bir hata meydana gelirse buraya düşüyor
-    console.log("Connection Error: ", err);
-})
+        //Bağlantı sırasında bir hata meydana gelirse buraya düşüyor
+        console.log("Connection Error: ", err);
+    })
+
+//Mongodb account aç ve bir cluster oluştur ( google ile login olabilirsin )
+//Cluster ip ayarını unutma
+//mongodb compass indir
+//compass üzerinden cluster a bağlan
+
+//mongoose npm i et ve bir collection oluştur
 
 //VS Code üzerinden collection oluşturacağım
-
 const webUserSchema = new Schema({
-    name: String,
+    name: { type: String, required: true },
     surname: String,
-    email: String
+    email: String,
+    address: String,
+    city: [],
+    detail: {},
+    addDate: { type: Date, default: Date.now },
+    isActive: { type: Boolean, default: true },
+
+
 })
 
-const webUserModel = mongoose.model('WebUser',webUserSchema);
-
-
+const webUserModel = mongoose.model('WebUser', webUserSchema);
+ 
 
 // Yeni bir webuser ekleme işlemi
-
 var webUser = new webUserModel({
-    name:"Tuna",
-    //surname:'Sakar',
-    //email:'tuna@mail.com',
-    //address:'Olmayan bir kolon'
+    name: "Tuna",
+    surname: 'Sakar',
+    email: 'tuna@mail.com',
+    address: 'Olmayan bir kolon',
+    city: ['İzmir', 'İstanbul', 'Ankara'],
+    detail: { language: 'English', color: 'Yellow' }
 })
 
 webUser.save()
@@ -58,3 +71,5 @@ webUser.save()
 //   } catch (error) {
 //     handleError(error);
 //   }
+
+
