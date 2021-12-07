@@ -1,0 +1,2 @@
+3 tane farklı şema oluştur ve compass a ekle
+** save metodu sırasında bir hata meydana gelirse console a yaz ( hata meydana getirmek için required bir alan tanımla!) save metodu call backleri incele
