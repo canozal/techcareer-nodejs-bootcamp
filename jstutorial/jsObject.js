@@ -8,7 +8,7 @@ var product = {
     supplierName: 'Apple'
 }
 
-console.log(product.name);
+// console.log(product.name);
 
 
 var webUser = {
@@ -18,7 +18,7 @@ var webUser = {
 }
 
 
-console.log(webUser.languages[1])
+// console.log(webUser.languages[1])
 
 
 var order = {
@@ -31,7 +31,10 @@ var order = {
     }
 }
 
+console.log(order.orderId);
+console.log(order['orderId']);
 
-console.log(order.detail.name);
+
+// console.log(order.detail.name);
 
 
