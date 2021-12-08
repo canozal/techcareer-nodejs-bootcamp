@@ -40,7 +40,35 @@ const webUserModel = mongoose.model('WebUser', webUserSchema);
 
 
 app.get('/api/webusers', (req, res) => {
-    webUserModel.find((err, docs) => {
+
+
+    var query = {};
+    var fields = req.query.fields;
+
+
+    var fieldArray = fields.split(',');
+
+    var fieldResult = '';
+
+    fieldArray.forEach(item => {
+        fieldResult = item + " " + fieldResult
+    })
+
+
+
+    if (req.query.name !== undefined) {
+        query.name = req.query.name;
+    }
+    if (req.query.surname !== undefined) {
+        query.surname = req.query.surname;
+    }
+    if (req.query.address !== undefined) {
+        query.address = req.query.address;
+    }
+
+
+
+    webUserModel.find(query, fieldResult, (err, docs) => {
         if (!err) {
             res.json(docs)
         }
@@ -48,6 +76,28 @@ app.get('/api/webusers', (req, res) => {
             res.json(err)
         }
     })
+
+
+})
+
+
+
+
+app.get('/api/webusers/:id', (req, res) => {
+
+    var id = req.params.id;
+
+    webUserModel.findById(id, (err, doc) => {
+
+        if (!err) {
+            res.json(doc)
+        }
+        else {
+            res.status(500).json(err);
+        }
+
+    })
+
 })
 
 app.post('/api/webusers', (req, res) => {
@@ -104,14 +154,14 @@ app.put('/api/webusers', (req, res) => {
 
     webUserModel.findById(id, (err, doc) => {
 
-        if(!err){
+        if (!err) {
             doc.name = req.body.name;
             doc.surname = req.body.surname;
             doc.save()
 
             res.json(doc)
         }
-        else{   
+        else {
             res.status(500).json(err)
         }
 
@@ -120,6 +170,8 @@ app.put('/api/webusers', (req, res) => {
 
 
 })
+
+
 
 
 app.listen(8080, () => {
