@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "6b20d2f2-be05-4ac8-8dfe-f79e03b321ad",
+		"name": "MongooseSample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-all-webusers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "yildiz.cagatay@hotmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/webusers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "zeynep@hotmail.com",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "321",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-webuser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Mert",
+							"type": "text"
+						},
+						{
+							"key": "surname",
+							"value": "Alptekin",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Vişnezade mah",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Mert123",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "crazymert@mynet.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/webusers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-webuser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "61b0e5cf55ad3adf6fb11260",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/webusers/61b0e5b7c1543d17d1380f68",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers",
+						"61b0e5b7c1543d17d1380f68"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "webuser-update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "61b0e12f9e500a3758d2df0f",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Anıl",
+							"type": "text"
+						},
+						{
+							"key": "surname",
+							"value": "Yılmaz222",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/webusers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-webuser-byId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/webusers/61b0f486fa765a29018991b7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers",
+						"61b0f486fa765a29018991b7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "webuser-login-control",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "crazymert@mynet.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Mert123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/webusers/logincontrol",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"webusers",
+						"logincontrol"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
