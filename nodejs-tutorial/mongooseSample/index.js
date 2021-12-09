@@ -36,6 +36,11 @@ app.put('/api/webusers', (req, res) => {
 })
 
 
+app.post('/api/webusers/loginControl', (req, res) => {
+    webUserController.loginControl(req, res)
+})
+
+
 app.listen(8080, () => {
     console.log("Sunucum çalışıyor...");
 })

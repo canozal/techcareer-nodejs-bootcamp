@@ -1,7 +1,14 @@
 //Bu controller webuserla ilgili işlemleri yapacak arkadaş
 
-const mongoose = require('mongoose');
 const { webUserModel } = require('../models/webUser');
+const { webUserLogModel } = require('../models/webUserLog');
+
+
+var CryptoJS = require("crypto-js");
+const { userLoginKey } = require('../env/shaKey');
+
+
+
 
 
 
@@ -64,10 +71,15 @@ const webUserController = {
         })
     },
     add: (req, res) => {
+
+        var encryptPassword = CryptoJS.AES.encrypt(req.body.password, userLoginKey).toString();
+
         var newWebUser = new webUserModel({
             name: req.body.name,
             surname: req.body.surname,
-            address: req.body.address
+            address: req.body.address,
+            password: encryptPassword,
+            email: req.body.email
         })
 
         newWebUser.save((err, doc) => {
@@ -121,6 +133,55 @@ const webUserController = {
             }
 
         })
+    },
+    loginControl: (req, res) => {
+
+        var email = req.body.email;
+        var password = req.body.password;
+
+        webUserModel.findOne({ email: email }, (err, doc) => {
+
+            var bytes = CryptoJS.AES.decrypt(doc.password, userLoginKey);
+            var decryptedData = bytes.toString(CryptoJS.enc.Utf8);
+
+
+            if (!err && doc != null) {
+
+                if (password == decryptedData) {
+                    var newWebUserLog = new webUserLogModel({
+                        loginType: 'Success',
+                        ipAddress: req.socket.remoteAddress
+                    })
+
+                    newWebUserLog.save();
+
+                    res.send("Login success!!");
+                }
+                else {
+                    doc.failLoginCount = doc.failLoginCount + 1;
+                    doc.save()
+
+                    var newWebUserLog = new webUserLogModel({
+                        loginType: 'Fail',
+                        ipAddress: req.socket.remoteAddress,
+                        webUserId : doc._id
+                    })
+
+                    newWebUserLog.save();
+
+
+                    res.status(404).send("Not found!")
+                }
+
+
+            }
+            else {
+                res.status(404).send("Not found!")
+            }
+
+        })
+
+
     }
 
 }
