@@ -32,11 +32,13 @@ app.use((req, res, next) => {
         let token = req.headers.authorization;
 
         try {
-            jwt.verify(token, accessPrivateKey, function (err, decoded) {
-                if (err) {
-                    console.log(err);
-                }
-            });
+            // jwt.verify(token, accessPrivateKey, function (err, decoded) {
+            //     if (err) {
+            //         console.log(err);
+            //     }
+            // });
+
+            jwt.verify(token, accessPrivateKey);
             next();
 
         } catch {
