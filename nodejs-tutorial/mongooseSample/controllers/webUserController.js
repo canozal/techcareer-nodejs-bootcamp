@@ -8,17 +8,19 @@ var CryptoJS = require("crypto-js");
 const { userLoginKey } = require('../env/shaKey');
 
 
-
-
-
-
-
 const webUserController = {
 
-    getById: (req, res) => {
+    getById: async (req, res) => {
 
         var id = req.params.id;
 
+        let newWebUser = {};
+
+
+        // var result  = await webUserModel.findById(id).exec()
+        // res.json(result);
+        
+    
         webUserModel.findById(id, (err, doc) => {
 
             if (!err && doc != null) {
