@@ -19,8 +19,8 @@ const webUserController = {
 
         // var result  = await webUserModel.findById(id).exec()
         // res.json(result);
-        
-    
+
+
         webUserModel.findById(id, (err, doc) => {
 
             if (!err && doc != null) {
@@ -72,7 +72,7 @@ const webUserController = {
             }
         })
     },
-    add: (req, res) => {
+    add: (req, res, io) => {
 
         var encryptPassword = CryptoJS.AES.encrypt(req.body.password, userLoginKey).toString();
 
@@ -87,7 +87,9 @@ const webUserController = {
         newWebUser.save((err, doc) => {
 
             if (!err) {
-                res.status(201).json(doc)
+                io.emit("adduser", doc);
+                res.status(201).json(doc);
+
             }
             else {
                 res.status(500).json(err);
@@ -166,7 +168,7 @@ const webUserController = {
                     var newWebUserLog = new webUserLogModel({
                         loginType: 'Fail',
                         ipAddress: req.socket.remoteAddress,
-                        webUserId : doc._id
+                        webUserId: doc._id
                     })
 
                     newWebUserLog.save();

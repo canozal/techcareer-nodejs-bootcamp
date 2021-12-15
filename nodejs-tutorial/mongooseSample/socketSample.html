@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.js"
+        integrity="sha512-nYuHvSAhY5lFZ4ixSViOwsEKFvlxHMU2NHts1ILuJgOS6ptUmAGt/0i5czIgMOahKZ6JN84YFDA+mCdky7dD8A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+
+    <div>
+        <div>
+            <label>Message</label>
+            <input type="text" id='message'>
+        </div>
+        <div>
+            <label>Receiver Socket Id:</label>
+            <input type="text" id='receiverId'>
+        </div>
+
+        <button onclick="sendMessage()">Send</button>
+
+        <hr>
+    </div>
+
+    <div>
+        Message Box
+        <ul id='messages'>
+
+        </ul>
+    </div>
+
+
+    <ul id='users'>
+
+    </ul>
+
+
+
+    <script>
+        var socket = io.connect('http://localhost:8080')
+
+
+
+        let socketId = ""
+        socket.on('connect', function () {
+            socketId = socket.id;
+        })
+
+
+        socket.on('adduser', function (data) {
+
+            var liElement = document.createElement('li');
+            liElement.innerHTML = data.name + " " + data.surname
+
+            document.getElementById('users').appendChild(liElement)
+
+        })
+
+
+        socket.on('getmessage', function (data) {
+
+            var liElement = document.createElement('li');
+            liElement.innerHTML = data.message;
+
+            document.getElementById('messages').appendChild(liElement);
+
+        })
+
+
+        function sendMessage() {
+
+            let message = document.getElementById('message').value;
+            let receiverId = document.getElementById('receiverId').value;
+            let senderId = socketId
+
+            var date = Date.now()
+
+            socket.emit('newmessage', { message: message, messageData: date, senderId: senderId, receiverId: receiverId });
+       
+            var liElement = document.createElement('li');
+            liElement.innerHTML = message
+
+            document.getElementById('messages').appendChild(liElement);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

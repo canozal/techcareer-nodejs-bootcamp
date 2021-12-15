@@ -2,6 +2,21 @@
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
+
+const http = require('http')
+const server = http.createServer(app);
+const { Server } = require("socket.io")
+
+const io = new Server(server,  {
+    cors: {
+      origin: '*',
+    }
+  });
+
+const { sendChatMessage } = require('./socketHandler/chatHandler')(io)
+
+
+
 const { webUserController } = require('./controllers/webUserController');
 const { connectionHelper } = require('./dbconnect/connectionHelper');
 var jwt = require('jsonwebtoken');
@@ -10,6 +25,35 @@ const { adminUserModel } = require('./models/adminUser');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept , Authorization"
+//     );
+//     next()
+// });
+
+
+let clients = [];
+
+
+io.on('connection', (socket) => {
+
+    clients.push(socket.id);
+    console.log(clients);
+ 
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+
+    socket.on('newmessage', sendChatMessage);
+
+
+});
+
 
 
 connectionHelper.connect();
@@ -20,31 +64,32 @@ let refreshPrivateKey = "techCareerRefreshToken"
 
 let accessTokenExpireTime = 20;
 let refreshTokenExpireTime = 300;
-//refresh token >>>>>>> access token
+
 
 
 app.use((req, res, next) => {
 
-    if (req.originalUrl == '/token' || req.originalUrl == '/refreshToken') {
-        next();
-    }
-    else {
-        let token = req.headers.authorization;
+    next();
+    // if (req.originalUrl == '/token' || req.originalUrl == '/refreshToken') {
+    //     next();
+    // }
+    // else {
+    //     let token = req.headers.authorization;
 
-        try {
-            // jwt.verify(token, accessPrivateKey, function (err, decoded) {
-            //     if (err) {
-            //         console.log(err);
-            //     }
-            // });
+    //     try {
+    //         // jwt.verify(token, accessPrivateKey, function (err, decoded) {
+    //         //     if (err) {
+    //         //         console.log(err);
+    //         //     }
+    //         // });
 
-            jwt.verify(token, accessPrivateKey);
-            next();
+    //         jwt.verify(token, accessPrivateKey);
+    //         next();
 
-        } catch {
-            res.status(401).json({ 'message': 'Yetkiniz yok' });
-        }
-    }
+    //     } catch {
+    //         res.status(401).json({ 'message': 'Yetkiniz yok' });
+    //     }
+    // }
 
 })
 
@@ -115,7 +160,9 @@ app.get('/api/webusers/:id', (req, res) => {
 })
 
 app.post('/api/webusers', (req, res) => {
-    webUserController.add(req, res)
+
+    webUserController.add(req, res, io);
+
 })
 
 app.delete('/api/webusers/:id', (req, res) => {
@@ -132,10 +179,15 @@ app.post('/api/webusers/loginControl', (req, res) => {
 })
 
 
-app.listen(8080, () => {
-    console.log("Sunucum çalışıyor...");
-})
+// app.listen(8080, () => {
+//     console.log("Sunucum çalışıyor...");
+// })
 
+
+
+server.listen(8080, () => {
+    console.log('listening on *:8080');
+  });
 
 
 

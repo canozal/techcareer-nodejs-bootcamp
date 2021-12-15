@@ -3,9 +3,8 @@ const fs = require('fs')
 
 const port = 8080
 const server = http.createServer(function (req, res) {
-    //throw 'aman da aman';
-    // res.writeHead(200, {'Content-Type': 'text/html'});
-    // res.end('Hello Nodejs!')
+
+    
 
     if (req.url == '/') {
         fs.readFile('./index.html', function (err, data) {
