@@ -7,11 +7,11 @@ const http = require('http')
 const server = http.createServer(app);
 const { Server } = require("socket.io")
 
-const io = new Server(server,  {
+const io = new Server(server, {
     cors: {
-      origin: '*',
+        origin: '*',
     }
-  });
+});
 
 const { sendChatMessage } = require('./socketHandler/chatHandler')(io)
 
@@ -21,10 +21,39 @@ const { webUserController } = require('./controllers/webUserController');
 const { connectionHelper } = require('./dbconnect/connectionHelper');
 var jwt = require('jsonwebtoken');
 const { adminUserModel } = require('./models/adminUser');
+const { productModel } = require('./models/product');
+const { categoryModel } = require('./models/category');
+const { productController } = require('./controllers/productController');
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+
+
+// categoryModel.findById('61bb71713b0d21ea2139285f',(err, doc) => {
+
+
+//     if(doc != null){
+        // var product = new productModel({
+        //     name: 'Iphone',
+        //     unitsInStock: 4,
+        //     category : '61bb71713b0d21ea2139285f'
+        // });
+
+        // product.save();
+//     }
+// })
+
+
+//Eğer client benden bu ürünün KATEGORİSİNİN adını da isterse manuel join işlemi gerçekleştiriyorum
+
+
+// productModel.findById('61bb7598a9409739c01c8049').populate('_category').exec(function(err, doc) {
+//     console.log('Result: ', doc._category);
+
+//   });
+
 
 // app.use(function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
@@ -43,7 +72,7 @@ io.on('connection', (socket) => {
 
     clients.push(socket.id);
     console.log(clients);
- 
+
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
@@ -178,6 +207,18 @@ app.post('/api/webusers/loginControl', (req, res) => {
     webUserController.loginControl(req, res)
 })
 
+app.post('/api/products', (req,res) => {
+    
+    productController.add(req,res);
+
+})
+
+app.get('/api/products', (req,res) => {
+    
+    productController.getAll(req,res);
+
+})
+
 
 // app.listen(8080, () => {
 //     console.log("Sunucum çalışıyor...");
@@ -187,7 +228,7 @@ app.post('/api/webusers/loginControl', (req, res) => {
 
 server.listen(8080, () => {
     console.log('listening on *:8080');
-  });
+});
 
 
 
