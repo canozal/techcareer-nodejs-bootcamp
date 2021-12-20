@@ -1,0 +1,11 @@
+
+html
+  head
+    title= title
+  body
+        form(id="addcategory" action="/addcategory" method="post")
+            input(type="text", name="name", value="", placeholder="Ad" required)
+            br
+            input(type="text", name="description", value="", placeholder="Açıklama")
+            br
+            input(type="submit" value="Add")
