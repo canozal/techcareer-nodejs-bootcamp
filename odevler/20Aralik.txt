@@ -1,0 +1,16 @@
+bir pug projesi oluştur ( views vesaire)
+ürünleri çek ve ekrana yaz ( axios ile express verileri verecek )
+-- fi,yatı 20 den büyük olanlar kırmızı olsun
+
+ ürünleri ekleyecek bir form tasarla ( axios ile arka taraf post edecek)
+
+
+ ******
+ listeye bir güncelle butonu koy ve butona tıkladığında güncelleme formuna gitsin
+ orada ürünü güncelle ve axios ile servise gönder
+
+
+ ** 
+ listeye bir sil butonu koy ve tıkladığında o ürünü silsin
+
+ 
