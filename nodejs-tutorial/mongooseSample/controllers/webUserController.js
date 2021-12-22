@@ -10,14 +10,18 @@ const { userLoginKey } = require('../env/shaKey');
 
 
 
-
-
-
 const webUserController = {
 
-    getById: (req, res) => {
+    getById: async (req, res) => {
 
         var id = req.params.id;
+
+        let newWebUser = {};
+
+
+        // var result  = await webUserModel.findById(id).exec()
+        // res.json(result);
+
 
         webUserModel.findById(id, (err, doc) => {
 
@@ -70,7 +74,7 @@ const webUserController = {
             }
         })
     },
-    add: (req, res) => {
+    add: (req, res, io) => {
 
         var encryptPassword = CryptoJS.AES.encrypt(req.body.password, userLoginKey).toString();
 
@@ -85,7 +89,9 @@ const webUserController = {
         newWebUser.save((err, doc) => {
 
             if (!err) {
-                res.status(201).json(doc)
+                io.emit("adduser", doc);
+                res.status(201).json(doc);
+
             }
             else {
                 res.status(500).json(err);
@@ -164,7 +170,7 @@ const webUserController = {
                     var newWebUserLog = new webUserLogModel({
                         loginType: 'Fail',
                         ipAddress: req.socket.remoteAddress,
-                        webUserId : doc._id
+                        webUserId: doc._id
                     })
 
                     newWebUserLog.save();

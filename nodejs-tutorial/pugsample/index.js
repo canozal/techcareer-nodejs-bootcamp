@@ -1,21 +1,19 @@
 const express = require('express')
 const app = express();
 var bodyParser = require('body-parser')
+const axios = require('axios')
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
 app.use(bodyParser.json())
 
 app.use(express.static('public'))
-
 app.set('view engine', 'pug')
-
 
 app.get('/', function (req, res) {
     res.render('index', { title: 'Hey', message: 'Hello there!' })
 })
+
 
 
 let categoryArray = [
@@ -62,21 +60,42 @@ let categoryArray = [
 ]
 
 app.get('/category', (req, res) => {
-    res.render('category', { categories:  categoryArray})
+    res.render('category', { categories: categoryArray })
+})
+
+
+app.get('/categorylist', (req, res) => {
+
+    const webApiUrl = 'https://northwind.vercel.app/api/categories';
+
+    axios.get(webApiUrl)
+        .then(function (response) {
+
+            res.render('categorylist', { categories: response.data })
+
+        })
 
 })
 
 
 app.get('/addcategory', (req, res) => {
     res.render('addcategory')
-
 })
 
-app.post('/addcategory', (req, res) => {
- 
-   
 
-    res.render('addcategory')
+
+app.post('/addcategory', (req, res) => {
+
+    const webApiUrl = 'https://northwind.vercel.app/api/categories';
+
+    axios.post(webApiUrl, {
+        name: req.body.name,
+        description: req.body.description
+    })
+        .then(function (response) {
+            res.render('addcategory')
+        })
+
 
 })
 
