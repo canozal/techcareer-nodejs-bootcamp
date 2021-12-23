@@ -6,6 +6,7 @@ const { webUserLogModel } = require('../models/webUserLog');
 
 var CryptoJS = require("crypto-js");
 const { userLoginKey } = require('../env/shaKey');
+const { webUserRepository } = require('../repository/webUserRepository');
 
 
 
@@ -16,29 +17,18 @@ const webUserController = {
 
         var id = req.params.id;
 
-        let newWebUser = {};
+        let webUser = webUserRepository.getById(id);
 
-
-        // var result  = await webUserModel.findById(id).exec()
-        // res.json(result);
-
-
-        webUserModel.findById(id, (err, doc) => {
-
-            if (!err && doc != null) {
-                res.json(doc)
-            }
-            else if (doc == null) {
-                res.status(404).json(null)
-            }
-            else {
-                res.status(500).json(err);
-            }
-
-        })
+        if(webUser == null){
+            res.status(404).json(null)
+        }
+        else{
+            res.json(webUser);
+        }
 
     },
     getAll: (req, res) => {
+
         var query = {};
         var fields = req.query.fields;
 
@@ -195,3 +185,11 @@ const webUserController = {
 module.exports = {
     webUserController
 }
+
+
+
+
+//Repository
+//Router
+//Models
+//Controllers

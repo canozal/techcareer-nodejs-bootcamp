@@ -24,12 +24,12 @@ const { adminUserModel } = require('./models/adminUser');
 const { productModel } = require('./models/product');
 const { categoryModel } = require('./models/category');
 const { productController } = require('./controllers/productController');
-
+const webUserRoute = require("./routes/webUserRoutes");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-
+app.use('/api/webusers', webUserRoute)
 
 // categoryModel.findById('61bb71713b0d21ea2139285f',(err, doc) => {
 
@@ -179,10 +179,6 @@ app.post('/refreshToken', (req, res) => {
 
 })
 
-app.get('/api/webusers', (req, res) => {
-    webUserController.getAll(req, res)
-})
-
 
 app.get('/api/webusers/:id', (req, res) => {
     webUserController.getById(req, res)
@@ -229,6 +225,8 @@ app.get('/api/products', (req,res) => {
 server.listen(8080, () => {
     console.log('listening on *:8080');
 });
+
+
 
 
 
