@@ -2,6 +2,11 @@
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser');
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+const fs = require('fs')
+var uuid = require('uuid');
+var path = require('path')
 
 const http = require('http')
 const server = http.createServer(app);
@@ -25,6 +30,7 @@ const { productModel } = require('./models/product');
 const { categoryModel } = require('./models/category');
 const { productController } = require('./controllers/productController');
 const webUserRoute = require("./routes/webUserRoutes");
+const { webUserModel } = require('./models/webUser');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -35,13 +41,13 @@ app.use('/api/webusers', webUserRoute)
 
 
 //     if(doc != null){
-        // var product = new productModel({
-        //     name: 'Iphone',
-        //     unitsInStock: 4,
-        //     category : '61bb71713b0d21ea2139285f'
-        // });
+// var product = new productModel({
+//     name: 'Iphone',
+//     unitsInStock: 4,
+//     category : '61bb71713b0d21ea2139285f'
+// });
 
-        // product.save();
+// product.save();
 //     }
 // })
 
@@ -55,15 +61,14 @@ app.use('/api/webusers', webUserRoute)
 //   });
 
 
-// app.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept , Authorization"
-//     );
-//     next()
-// });
-
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept , Authorization"
+    );
+    next()
+});
 
 let clients = [];
 
@@ -152,6 +157,63 @@ app.post('/token', (req, res) => {
 })
 
 
+
+app.get('/webuserpage',(req,res) => {
+    res.sendFile('postImageSample.html', {root: __dirname })
+})
+
+app.post('/api/userimage', upload.single('webuserimage'), (req, res) => {
+
+
+
+    let extName = path.parse(req.file.originalname).ext
+
+
+    //Resmi ya mongodb ye kaydederim ya da file olarak bir klasöre kaydederim.
+
+    //1. yol gelen resmi dosya olarak kaydetmek
+
+    // var file = __dirname + "/" + uuid.v1()  + extName;
+    // fs.readFile(req.file.path, function (err, data) {
+    //     fs.writeFile(file, data, function (err) {
+    //         if (err) {
+    //             console.error(err);
+    //             response = {
+    //                 message: 'Sorry, file couldn\'t be uploaded.',
+    //                 filename: req.file.originalname
+    //             };
+    //         } else {
+    //             response = {
+    //                 message: 'File uploaded successfully',
+    //                 filename: req.file.originalname
+    //             };
+    //         }
+    //         res.end(JSON.stringify(response));
+    //     });
+    // });
+
+
+    //2. yol - Gelen resmi mongodb ye  kaydetmek
+
+    var newWebUser = new webUserModel({
+        name: "Steve",
+        surname: "Harris",
+        address: "ABD",
+        password: "123",
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/jpeg'
+        }
+    })
+
+    newWebUser.save()
+
+    res.send('OK')
+
+
+})
+
+
 app.post('/refreshToken', (req, res) => {
 
     var refToken = req.body.refreshToken;
@@ -203,15 +265,15 @@ app.post('/api/webusers/loginControl', (req, res) => {
     webUserController.loginControl(req, res)
 })
 
-app.post('/api/products', (req,res) => {
-    
-    productController.add(req,res);
+app.post('/api/products', (req, res) => {
+
+    productController.add(req, res);
 
 })
 
-app.get('/api/products', (req,res) => {
-    
-    productController.getAll(req,res);
+app.get('/api/products', (req, res) => {
+
+    productController.getAll(req, res);
 
 })
 

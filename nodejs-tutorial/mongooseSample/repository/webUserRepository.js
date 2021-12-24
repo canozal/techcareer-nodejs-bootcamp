@@ -14,10 +14,8 @@ const webUserRepository = {
 
     getById: async (id) => {
 
-        let newWebUser = {};
 
-        // var result  = await webUserModel.findById(id).exec()
-        // res.json(result);
+        console.log(id);
 
 
         await webUserModel.findById(id, (err, doc) => {

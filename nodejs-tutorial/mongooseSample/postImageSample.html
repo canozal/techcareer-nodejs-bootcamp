@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form method="post" enctype="multipart/form-data" action="http://localhost:8080/api/userimage">
+        <input type="file" name="webuserimage">
+        <input type="submit" value="Submit">
+    </form>
+
+
+
+</body>
+
+<script>
+
+    fetch('http://localhost:8080/api/webusers')
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data[12].img.data.data);
+            
+
+            var img = document.createElement('img');
+            img.src = `data(${data[12].img.data})`
+            document.body.appendChild(img);
+        })
+
+
+        let stringSample = 'Çağatay"ın yeri'
+        let stringSample2 = "Çağatay'ın yeri"
+        let stringSample3 = `Çağatay'ın yeri....`
+
+        let number = 11
+        let stringSample4 = `çağatay:${number}`
+        let stringSample5 = "çağatay" + number
+
+        
+
+
+</script>
+
+</html>
+
+
