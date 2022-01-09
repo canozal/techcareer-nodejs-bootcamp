@@ -15,6 +15,11 @@ const webUserSchema = new Schema({
     failLoginCount: { type: Number, default: 0},
     addDate: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true },
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 
 })
 
